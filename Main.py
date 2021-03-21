@@ -11,7 +11,8 @@ def average_entry_price():
     average /= total_amount
     return average
 
-average = average_entry_price()
-print('\nYour average entry price is: {} dollars.'.format(average))
+
+this_average = average_entry_price()
+print('\nYour average entry price is: {} dollars.'.format(this_average))
 
 input('\nPress Enter to exit.')
