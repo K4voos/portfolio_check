@@ -11,10 +11,7 @@ def get_input():
         else:
             entry_history[buy_price] = buy_amount
     return entry_history
-    #     total_amount += buy_amount
-    #     ave += buy_price * buy_amount
-    # ave /= total_amount
-    # return ave
+
 
 
 def calculate_average(dictionary):
