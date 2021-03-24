@@ -42,7 +42,9 @@ def open_file():
 def save_to_file(dictionary):
     file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
                                              filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
-    f = open(f"{file_name}.csv", "w", newline="")
+    if '.csv' not in file_name:
+        file_name += '.csv'
+    f = open(file_name, "w", newline="")
     writer = csv.writer(f)
     writer.writerow(("price", "amount"))
     for key in dictionary:
@@ -66,8 +68,8 @@ this_input = get_input()
 this_average = calculate_average(this_input)
 print('\nYour average entry price is: {} dollars.'.format(this_average))
 
-save = input("Do you want to save this file? (y/n): ")
+save = input("Do you want to save this as a new file? (y/n): ")
 if save == 'y':
     save_to_file(this_input)
 
-# input('\nPress Enter to exit.')
+input('\nPress Enter to exit.')
