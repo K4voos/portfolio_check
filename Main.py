@@ -19,7 +19,6 @@ def get_input():
             else:
                 entry_history[buy_price] = buy_amount
 
-    print(entry_history)
     return entry_history
 
 
@@ -34,12 +33,16 @@ def open_file():
         entry[float(line[0])] = float(line[1])
     f.close()
 
+    for key in entry:
+        print("Prince: ", key)
+        print("Amount: ", entry[key])
     return entry
 
 
 def save_to_file(dictionary):
-    file_name = input("Save file as: ")
-    f = open(f"Portfolio_Checker/{file_name}.csv", "w", newline="")
+    file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
+                                             filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
+    f = open(f"{file_name}.csv", "w", newline="")
     writer = csv.writer(f)
     writer.writerow(("price", "amount"))
     for key in dictionary:
