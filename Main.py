@@ -3,6 +3,7 @@ from tkinter import filedialog
 
 
 def get_input():
+    # Keys are prices and values are amounts.
     entry_history = {}
     init = input("Press 'o' to open an existing file, or anything else for new operation: ")
 
@@ -33,9 +34,9 @@ def open_file():
         entry[float(line[0])] = float(line[1])
     f.close()
 
-    for key in entry:
-        print("Prince: ", key)
-        print("Amount: ", entry[key])
+    for price, amount in entry.items():
+        print("Prince: ", price)
+        print("Amount: ", amount)
     return entry
 
 
@@ -47,8 +48,8 @@ def save_to_file(dictionary):
     f = open(file_name, "w", newline="")
     writer = csv.writer(f)
     writer.writerow(("price", "amount"))
-    for key in dictionary:
-        writer.writerow((key, dictionary[key]))
+    for price, amount in dictionary:
+        writer.writerow((price, amount))
     f.close()
     print('File saved successfully.')
 
@@ -56,24 +57,26 @@ def save_to_file(dictionary):
 def calculate_average(dictionary):
     total_amount = 0
     ave = 0
-    for key in dictionary:
-        ave += key * dictionary[key]
-        total_amount += dictionary[key]
+    for price, amount in dictionary.items():
+        ave += price * amount
+        total_amount += amount
     ave /= total_amount
     return ave
 
 
+def calculate_profit(entry_price):
+    current_price = float(input("Please enter current price: "))
+    total_profit = current_price - entry_price
+    print('Total profit (negative means loss): {:+.4f}'.format(total_profit))
+    percentage = total_profit / entry_price * 100
+    print('Total profit percentage: {:+.4f}%'.format(percentage))
+
+
 this_input = get_input()
-current_price = float(input("Please enter current price: "))
 this_average = calculate_average(this_input)
+print('\nYour average entry price is: {:.4f} USD\n'.format(this_average))
 
-print('\nYour average entry price is: {:.4f} USD'.format(this_average))
-
-total_profit = current_price - this_average
-print('Total profit (negative means loss): {:+.4f}'.format(total_profit))
-
-percentage = total_profit / this_average * 100
-print('Total profit percentage: {:+.4f}%'.format(percentage))
+calculate_profit(this_average)
 
 save = input("Do you want to save this as a new file? (y/n): ")
 if save == 'y':
