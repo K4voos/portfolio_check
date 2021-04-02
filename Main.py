@@ -64,9 +64,16 @@ def calculate_average(dictionary):
 
 
 this_input = get_input()
-
+current_price = float(input("Please enter current price: "))
 this_average = calculate_average(this_input)
+
 print('\nYour average entry price is: {} dollars.'.format(this_average))
+
+total_profit = current_price - this_average
+print(f'Total profit = {total_profit}')
+
+percentage = (current_price - this_average) / this_average * 100
+print(f'Total profit percentage: {percentage}')
 
 save = input("Do you want to save this as a new file? (y/n): ")
 if save == 'y':
