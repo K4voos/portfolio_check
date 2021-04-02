@@ -67,13 +67,13 @@ this_input = get_input()
 current_price = float(input("Please enter current price: "))
 this_average = calculate_average(this_input)
 
-print('\nYour average entry price is: {} dollars.'.format(this_average))
+print('\nYour average entry price is: {:.4f} USD'.format(this_average))
 
 total_profit = current_price - this_average
-print(f'Total profit = {total_profit}')
+print('Total profit (negative means loss): {:+.4f}'.format(total_profit))
 
-percentage = (current_price - this_average) / this_average * 100
-print(f'Total profit percentage: {percentage}')
+percentage = total_profit / this_average * 100
+print('Total profit percentage: {:+.4f}%'.format(percentage))
 
 save = input("Do you want to save this as a new file? (y/n): ")
 if save == 'y':
