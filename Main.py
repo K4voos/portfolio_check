@@ -61,20 +61,20 @@ def calculate_average(dictionary):
         ave += price * amount
         total_amount += amount
     ave /= total_amount
-    return ave
+    return ave, total_amount
 
 
-def calculate_profit(entry_price):
+def calculate_profit(price_amount):
     current_price = float(input("Please enter current price: "))
-    total_profit = current_price - entry_price
-    print('Total profit (negative means loss): {:+.4f}'.format(total_profit))
-    percentage = total_profit / entry_price * 100
-    print('Total profit percentage: {:+.4f}%'.format(percentage))
+    total_profit = (current_price - price_amount[0]) * price_amount[1]
+    print('\nTotal profit (negative means loss): {:+.4f}'.format(total_profit))
+    percentage = (current_price - price_amount[0]) / price_amount[0] * 100
+    print('Total profit percentage: {:+.4f}%\n'.format(percentage))
 
 
 this_input = get_input()
 this_average = calculate_average(this_input)
-print('\nYour average entry price is: {:.4f} USD\n'.format(this_average))
+print('\nYour average entry price is: {:.4f} USD\n'.format(this_average[0]))
 
 calculate_profit(this_average)
 
