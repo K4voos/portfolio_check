@@ -56,29 +56,33 @@ def save_to_file(dictionary):
 
 def calculate_average(dictionary):
     total_amount = 0
-    ave = 0
+    bill = 0
+
     for price, amount in dictionary.items():
-        ave += price * amount
+        bill += price * amount
         total_amount += amount
-    ave /= total_amount
-    return ave, total_amount
+
+    ave = bill / total_amount
+    return ave, total_amount, bill
 
 
 def calculate_profit(price_amount):
+    print('\nYou spent {:.4} USD on this position.'.format(price_amount[2]))
     current_price = float(input("Please enter current price: "))
-    total_profit = (current_price - price_amount[0]) * price_amount[1]
-    print('\nTotal profit (negative means loss): {:+.4f}'.format(total_profit))
+    profit = (current_price - price_amount[0]) * price_amount[1]
+    print('Total profit (negative means loss): {:+.4f}'.format(profit))
     percentage = (current_price - price_amount[0]) / price_amount[0] * 100
-    print('Total profit percentage: {:+.4f}%\n'.format(percentage))
+    print('Total profit percentage: {:+.4f}%'.format(percentage))
+    print('Your money will be {:.4f} USD after close.'.format(price_amount[2] + profit))
 
 
 this_input = get_input()
 this_average = calculate_average(this_input)
-print('\nYour average entry price is: {:.4f} USD\n'.format(this_average[0]))
+print('\nYour average entry price is: {:.4f} USD'.format(this_average[0]))
 
 calculate_profit(this_average)
 
-save = input("Do you want to save this as a new file? (y/n): ")
+save = input("\nDo you want to save this as a new file? (y/n): ")
 if save == 'y':
     save_to_file(this_input)
 
