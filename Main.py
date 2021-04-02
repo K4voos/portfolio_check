@@ -2,6 +2,7 @@ import csv
 from tkinter import filedialog
 
 
+# Takes user input as price and amount of shares bought and returns them as a dictionary.
 def get_input():
     # Keys are prices and values are amounts.
     entry_history = {}
@@ -23,6 +24,7 @@ def get_input():
     return entry_history
 
 
+# Opens the file and returns prices and amounts as a dictionary.
 def open_file():
     entry = {}
     file_name = filedialog.askopenfilename(initialdir="/", title="Select File",
@@ -40,6 +42,7 @@ def open_file():
     return entry
 
 
+# Saves the existing price-amount dictionary to a .SVC file.
 def save_to_file(dictionary):
     file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
                                              filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
@@ -54,6 +57,7 @@ def save_to_file(dictionary):
     print('File saved successfully.')
 
 
+# Calculates average entry price, total shares bought and total money spent on current position.
 def calculate_average(dictionary):
     total_amount = 0
     bill = 0
@@ -66,6 +70,7 @@ def calculate_average(dictionary):
     return ave, total_amount, bill
 
 
+# Calculates profit/loss and money left after closing current position.
 def calculate_profit(price_amount):
     print('\nYou spent {:.4} USD on this position.'.format(price_amount[2]))
     current_price = float(input("Please enter current price: "))
