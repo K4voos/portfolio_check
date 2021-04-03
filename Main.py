@@ -1,5 +1,4 @@
-from csv import reader
-from csv import writer
+from csv import reader, writer
 from tkinter import filedialog
 
 
