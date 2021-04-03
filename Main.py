@@ -1,4 +1,5 @@
-import csv
+from csv import reader
+from csv import writer
 from tkinter import filedialog
 
 
@@ -30,7 +31,7 @@ def open_file():
     file_name = filedialog.askopenfilename(initialdir="/", title="Select File",
                                            filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
     f = open(file_name, 'r')
-    csv_reader = csv.reader(f)
+    csv_reader = reader(f)
     next(csv_reader)
     for line in csv_reader:
         entry[float(line[0])] = float(line[1])
@@ -45,14 +46,14 @@ def open_file():
 # Saves the existing price-amount dictionary to a .SVC file.
 def save_to_file(dictionary):
     file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
-                                             filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
+                                             filetypes=(("CSV files", "*.csv"), ("all files", "*.*")))
     if '.csv' not in file_name:
         file_name += '.csv'
     f = open(file_name, "w", newline="")
-    writer = csv.writer(f)
-    writer.writerow(("price", "amount"))
-    for price, amount in dictionary:
-        writer.writerow((price, amount))
+    csv_writer = writer(f)
+    csv_writer.writerow(("price", "amount"))
+    for price, amount in dictionary.items():
+        csv_writer.writerow((price, amount))
     f.close()
     print('File saved successfully.')
 
@@ -72,18 +73,18 @@ def calculate_average(dictionary):
 
 # Calculates profit/loss and money left after closing current position.
 def calculate_profit(price_amount):
-    print('\nYou spent {:.4} USD on this position.'.format(price_amount[2]))
+    print('\nYou have spent ${:.4} on this position.'.format(price_amount[2]))
     current_price = float(input("Please enter current price: "))
     profit = (current_price - price_amount[0]) * price_amount[1]
-    print('Total profit (negative means loss): {:+.4f}'.format(profit))
+    print('Total profit (negative means loss): ${:+.4f}'.format(profit))
     percentage = (current_price - price_amount[0]) / price_amount[0] * 100
     print('Total profit percentage: {:+.4f}%'.format(percentage))
-    print('Your money will be {:.4f} USD after close.'.format(price_amount[2] + profit))
+    print('Your money will be ${:.4f} after close.'.format(price_amount[2] + profit))
 
 
 this_input = get_input()
 this_average = calculate_average(this_input)
-print('\nYour average entry price is: {:.4f} USD'.format(this_average[0]))
+print('\nYour average entry price is: ${:.4f}'.format(this_average[0]))
 
 calculate_profit(this_average)
 
