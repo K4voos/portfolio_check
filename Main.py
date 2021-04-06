@@ -12,10 +12,19 @@ def get_input():
         entry_history = open_file()
     else:
         while True:
-            buy_amount = float(input("How many shares have you bought? (-1 to skip): "))
+            try:
+                buy_amount = float(input("How many shares have you bought? (-1 to skip): "))
+            except:
+                print("In this step you must enter the amount of shares you've bought")
+                continue
             if buy_amount == -1:
                 break
-            buy_price = float(input("At what price you've bought your shares? "))
+            try:
+                buy_price = float(input("At what price you've bought your shares? "))
+            except:
+                print("\nIn this step you must have entered the the price in which you have bought some shares.")
+                print("Let's start from the beginning of this round.")
+                continue
             if buy_price in entry_history:
                 entry_history[buy_price] += buy_amount
             else:
@@ -29,32 +38,48 @@ def open_file():
     entry = {}
     file_name = filedialog.askopenfilename(initialdir="/", title="Select File",
                                            filetypes=(("SCV files", "*.csv"), ("all files", "*.*")))
-    f = open(file_name, 'r')
+    try:
+        f = open(file_name, 'r')
+    except FileNotFoundError:
+        print('File not found!')
+        entry = get_input()
+        return entry
+
     csv_reader = reader(f)
     next(csv_reader)
     for line in csv_reader:
         entry[float(line[0])] = float(line[1])
+        print("Prince: ", line[0])
+        print("Amount: ", line[1])
     f.close()
 
-    for price, amount in entry.items():
-        print("Prince: ", price)
-        print("Amount: ", amount)
     return entry
 
 
 # Saves the existing price-amount dictionary to a .SVC file.
 def save_to_file(dictionary):
-    file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
-                                             filetypes=(("CSV files", "*.csv"), ("all files", "*.*")))
-    if '.csv' not in file_name:
-        file_name += '.csv'
-    f = open(file_name, "w", newline="")
-    csv_writer = writer(f)
-    csv_writer.writerow(("price", "amount"))
-    for price, amount in dictionary.items():
-        csv_writer.writerow((price, amount))
-    f.close()
-    print('File saved successfully.')
+    save = input("\nDo you want to save this as a new file? (y/n): ")
+    if save == 'y':
+        file_name = filedialog.asksaveasfilename(initialdir="/", title="Select File",
+                                                 filetypes=(("CSV files", "*.csv"), ("all files", "*.*")))
+        if not file_name == '' and '.csv' not in file_name:
+            file_name += '.csv'
+        try:
+            f = open(file_name, "w", newline="")
+        except FileNotFoundError:
+            save_to_file(this_input)
+            return False
+        csv_writer = writer(f)
+        csv_writer.writerow(("price", "amount"))
+        for price, amount in dictionary.items():
+            csv_writer.writerow((price, amount))
+        f.close()
+        print('File saved successfully.')
+    elif save == 'n':
+        return False
+    else:
+        print('Please enter only "y" or "n"!')
+        save_to_file(this_input)
 
 
 # Calculates average entry price, total shares bought and total money spent on current position.
@@ -87,8 +112,6 @@ print('\nYour average entry price is: ${:.4f}'.format(this_average[0]))
 
 calculate_profit(this_average)
 
-save = input("\nDo you want to save this as a new file? (y/n): ")
-if save == 'y':
-    save_to_file(this_input)
+save_to_file(this_input)
 
 input('\nPress Enter to exit.')
