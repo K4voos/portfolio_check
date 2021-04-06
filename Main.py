@@ -14,14 +14,14 @@ def get_input():
         while True:
             try:
                 buy_amount = float(input("How many shares have you bought? (-1 to skip): "))
-            except:
+            except ValueError:
                 print("In this step you must enter the amount of shares you've bought")
                 continue
             if buy_amount == -1:
                 break
             try:
                 buy_price = float(input("At what price you've bought your shares? "))
-            except:
+            except ValueError:
                 print("\nIn this step you must have entered the the price in which you have bought some shares.")
                 print("Let's start from the beginning of this round.")
                 continue
